@@ -31,6 +31,10 @@ class OnCallManager {
 
       // 해당 월의 공휴일 저장
       const restDay = this.#onCall.restDay(month); // 0이면 없는거거
+
+      // 근무자 배치
+      const schedule = this.#onCall.placementWorker(dayList, restDay, this.#weekdayMembers, this.#weekendMembers);
+      console.log(schedule);
     } catch (error) {
       throw error;
     }

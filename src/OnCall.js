@@ -15,7 +15,6 @@ class OnCall {
     const dayArray = [];
     const numberOfDays = NUMBER_OF_DAY[month];
     let startDay = DAYS.indexOf(day);
-    dayArray.push(7);
     for (let i = 0; i < numberOfDays; i += 1) {
       const mark = startDay % 7;
       startDay += 1;
@@ -30,6 +29,50 @@ class OnCall {
       return HOLLY_DAYS.find(hollyDay => hollyDay.month === month).date;
     }
     return 0;
+  }
+
+  placementWorker(dayList, restDay, weekdayMembers, weekendMembers) {
+    const schedule = []; // 이름이 들어가면 됨
+    const memberCount = weekdayMembers.length; // 멤버 수 구하기
+    let weekdayCnt = 0;
+    let weekendCnt = 0;
+    console.log(dayList)
+
+    dayList.forEach((day, i) => {
+      const currentWeekdayMember = weekdayCnt % memberCount;
+      const currentWeekendMember = weekendCnt % memberCount;
+      // 주말인지 판단
+      if (this.isWeekend(day)) {
+        // 주말인면
+        schedule.push(weekendMembers[currentWeekendMember]);
+        weekendCnt += 1;
+      } else {
+        // 평일이면
+        // 공휴일인지 판단
+        if (this.isHollyDay(i, restDay)) {
+          schedule.push(weekendMembers[currentWeekendMember]);
+          weekendCnt += 1;
+        } else {
+          schedule.push(weekdayMembers[currentWeekdayMember]);
+          weekdayCnt += 1;
+        }
+      }
+    });
+    return schedule;
+  }
+
+  isWeekend(day) {
+    if (day === 0 || day === 6) {
+      return true;
+    }
+    return false;
+  }
+
+  isHollyDay(i, restDay) {
+    if (i + 1 === restDay) {
+      return true;
+    }
+    return false;
   }
 }
 
