@@ -39,7 +39,7 @@ class OnCall {
       if (this.isWeekend(day)) {
         // 주말인면
         let worker = weekendMembers.shift();
-        if (worker === preWorker) {
+        if (worker === preWorker) { // 근무자 2일 근무
           const subWorker = weekendMembers.shift();
           weekendMembers.unshift(worker);
           worker = subWorker;
@@ -81,10 +81,10 @@ class OnCall {
   }
 
   isHollyDay(i, restDay) {
-    if (restDay.length === 1 && i + 1 === restDay) {
+    if (!Array.isArray(restDay) && i + 1 === restDay) {
       return true;
     }
-    if (restDay.length === 2 && restDay.includes(i + 1)) {
+    if (Array.isArray(restDay) && restDay.includes(i + 1)) {
       return true;
     }
     return false;
