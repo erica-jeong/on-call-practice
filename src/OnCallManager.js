@@ -34,7 +34,9 @@ class OnCallManager {
 
       // 근무자 배치
       const schedule = this.#onCall.placementWorker(dayList, restDay, this.#weekdayMembers, this.#weekendMembers);
-      console.log(schedule);
+
+      this.#outputView.printEmergencySchedule(month, dayList, restDay, schedule)
+
     } catch (error) {
       throw error;
     }
