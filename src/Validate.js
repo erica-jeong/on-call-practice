@@ -79,7 +79,7 @@ class Validate {
 
   checkSameMember(dayMembers, endMembers) {
     const same = endMembers.every(member => dayMembers.includes(member));
-    if(!same) {
+    if (!same) {
       throw new Error(NOT_SAME_MEMBER);
     }
   }

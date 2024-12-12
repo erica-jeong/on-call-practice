@@ -1,6 +1,7 @@
 import InputView from './InputView.js'
 import OutputView from './OutputView.js'
 import Validate from './Validate.js'
+import OnCall from './OnCall.js'
 
 class OnCallManager {
   #inputView
@@ -8,11 +9,13 @@ class OnCallManager {
   #validate
   #weekdayMembers
   #weekendMembers
+  #onCall
 
   constructor() {
     this.#inputView = new InputView();
     this.#outputView = new OutputView();
     this.#validate = new Validate();
+    this.#onCall = new OnCall();
   }
 
   async start() {
@@ -22,6 +25,9 @@ class OnCallManager {
       const day = monthAndDay[1];
       this.#weekdayMembers = await this.#inputWeekDayMembers();
       this.#weekendMembers = await this.#inputWeekendMembers();
+
+      // 입력받는 월의 시작 요일부터 요일 배치
+      const dayList = this.#onCall.makeDayList(month, day);
     } catch (error) {
       throw error;
     }
