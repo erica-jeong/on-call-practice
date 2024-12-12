@@ -5,6 +5,7 @@ const INVALID_DAY = '[ERROR] 월요일부터 일요일을 입력해주세요.'
 const INVALID_NAME = '[ERROR] 이름이 5자 이상입니다'
 const INVALID_MEMBER_COUNT = '[ERROR] 근무자는 최소 5명 최대 35명까지 입력 가능합니다.'
 const MEMBER_DUPLICATE = '[ERROR] 근무자는 평일 순번, 휴일 순번에 각각 1회만 가능합니다'
+const NOT_SAME_MEMBER = '[ERROR] 근무자는 평일 근무자와 같은 근무자여야 합니다.'
 
 
 class Validate {
@@ -63,6 +64,23 @@ class Validate {
     const newMembers = [...new Set(members)];
     if (newMembers.length !== members.length) {
       throw new Error(MEMBER_DUPLICATE);
+    }
+  }
+
+  weekendMembers(input) {
+    this.isEmpty(input)
+    const members = input.split(',');
+    members.forEach(member => {
+      this.checkNameRange(member);
+    })
+    this.checkMembersCount(members);
+    this.checkDuplicateMember(members);
+  }
+
+  checkSameMember(dayMembers, endMembers) {
+    const same = endMembers.every(member => dayMembers.includes(member));
+    if(!same) {
+      throw new Error(NOT_SAME_MEMBER);
     }
   }
 }

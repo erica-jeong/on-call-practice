@@ -6,6 +6,8 @@ class OnCallManager {
   #inputView
   #outputView
   #validate
+  #weekdayMembers
+  #weekendMembers
 
   constructor() {
     this.#inputView = new InputView();
@@ -18,7 +20,8 @@ class OnCallManager {
       const monthAndDay = await this.#inputMonthAndDay();
       const month = Number(monthAndDay[0]);
       const day = monthAndDay[1];
-      const weekdayMembers = await this.#inputWeekDayMembers();
+      this.#weekdayMembers = await this.#inputWeekDayMembers();
+      this.#weekendMembers = await this.#inputWeekendMembers();
     } catch (error) {
       throw error;
     }
@@ -41,6 +44,19 @@ class OnCallManager {
       try {
         const input = await this.#inputView.readWeekDayMembers();
         this.#validate.weekdayMembers(input);
+        return input.split(',');
+      } catch (error) {
+        this.#outputView.printErrorMessage(error.message);
+      }
+    }
+  }
+
+  async #inputWeekendMembers() {
+    while (true) {
+      try {
+        const input = await this.#inputView.readWeekendMembers();
+        this.#validate.weekendMembers(input);
+        this.#validate.checkSameMember(this.#weekdayMembers, input.split(','));
         return input.split(',');
       } catch (error) {
         this.#outputView.printErrorMessage(error.message);
