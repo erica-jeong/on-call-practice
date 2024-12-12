@@ -18,6 +18,7 @@ class OnCallManager {
       const monthAndDay = await this.#inputMonthAndDay();
       const month = Number(monthAndDay[0]);
       const day = monthAndDay[1];
+      const weekdayMembers = await this.#inputWeekDayMembers();
     } catch (error) {
       throw error;
     }
@@ -28,6 +29,18 @@ class OnCallManager {
       try {
         const input = await this.#inputView.readMonthAndDay();
         this.#validate.monthAndDate(input);
+        return input.split(',');
+      } catch (error) {
+        this.#outputView.printErrorMessage(error.message);
+      }
+    }
+  }
+
+  async #inputWeekDayMembers() {
+    while (true) {
+      try {
+        const input = await this.#inputView.readWeekDayMembers();
+        this.#validate.weekdayMembers(input);
         return input.split(',');
       } catch (error) {
         this.#outputView.printErrorMessage(error.message);
