@@ -33,28 +33,26 @@ class OnCall {
 
   placementWorker(dayList, restDay, weekdayMembers, weekendMembers) {
     const schedule = []; // 이름이 들어가면 됨
-    const memberCount = weekdayMembers.length; // 멤버 수 구하기
-    let weekdayCnt = 0;
-    let weekendCnt = 0;
     console.log(dayList)
 
     dayList.forEach((day, i) => {
-      const currentWeekdayMember = weekdayCnt % memberCount;
-      const currentWeekendMember = weekendCnt % memberCount;
       // 주말인지 판단
       if (this.isWeekend(day)) {
         // 주말인면
-        schedule.push(weekendMembers[currentWeekendMember]);
-        weekendCnt += 1;
+        const worker = weekendMembers.shift();
+        schedule.push(worker);
+        weekendMembers.push(worker);
       } else {
         // 평일이면
         // 공휴일인지 판단
         if (this.isHollyDay(i, restDay)) {
-          schedule.push(weekendMembers[currentWeekendMember]);
-          weekendCnt += 1;
+          const worker = weekendMembers.shift();
+          schedule.push(worker);
+          weekendMembers.push(worker);
         } else {
-          schedule.push(weekdayMembers[currentWeekdayMember]);
-          weekdayCnt += 1;
+          const worker = weekdayMembers.shift();
+          schedule.push(worker);
+          weekdayMembers.push(worker);
         }
       }
     });
