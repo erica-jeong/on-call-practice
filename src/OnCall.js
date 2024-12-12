@@ -36,21 +36,37 @@ class OnCall {
     console.log(dayList)
 
     dayList.forEach((day, i) => {
+      const preWorker = schedule[schedule.length - 1];
       // 주말인지 판단
       if (this.isWeekend(day)) {
         // 주말인면
-        const worker = weekendMembers.shift();
+        let worker = weekendMembers.shift();
+        if (worker === preWorker) {
+          const subWorker = weekendMembers.shift();
+          weekendMembers.unshift(worker);
+          worker = subWorker;
+        }
         schedule.push(worker);
         weekendMembers.push(worker);
       } else {
         // 평일이면
         // 공휴일인지 판단
         if (this.isHollyDay(i, restDay)) {
-          const worker = weekendMembers.shift();
+          let worker = weekendMembers.shift();
+          if (worker === preWorker) {
+            const subWorker = weekendMembers.shift();
+            weekendMembers.unshift(worker);
+            worker = subWorker;
+          }
           schedule.push(worker);
           weekendMembers.push(worker);
         } else {
-          const worker = weekdayMembers.shift();
+          let worker = weekdayMembers.shift();
+          if (worker === preWorker) {
+            const subWorker = weekdayMembers.shift();
+            weekdayMembers.unshift(worker);
+            worker = subWorker;
+          }
           schedule.push(worker);
           weekdayMembers.push(worker);
         }
@@ -67,7 +83,10 @@ class OnCall {
   }
 
   isHollyDay(i, restDay) {
-    if (i + 1 === restDay) {
+    if (restDay.length === 1 && i + 1 === restDay) {
+      return true;
+    }
+    if (restDay.length === 2 && restDay.includes(i + 1)) {
       return true;
     }
     return false;
