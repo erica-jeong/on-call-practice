@@ -33,8 +33,6 @@ class OnCall {
 
   placementWorker(dayList, restDay, weekdayMembers, weekendMembers) {
     const schedule = []; // 이름이 들어가면 됨
-    console.log(dayList)
-
     dayList.forEach((day, i) => {
       const preWorker = schedule[schedule.length - 1];
       // 주말인지 판단
