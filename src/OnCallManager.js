@@ -28,6 +28,9 @@ class OnCallManager {
 
       // 입력받는 월의 시작 요일부터 요일 배치
       const dayList = this.#onCall.makeDayList(month, day);
+
+      // 해당 월의 공휴일 저장
+      const restDay = this.#onCall.restDay(month); // 0이면 없는거거
     } catch (error) {
       throw error;
     }
